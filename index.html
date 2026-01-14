@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адвокатские услуги | GTA 5 RP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            background-color: #0f172a;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .heading-font {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* --- Анимации --- */
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes scaleUpLogo {
+            from { opacity: 0; transform: scale(0.6); }
+            to { opacity: 0.95; transform: scale(1); }
+        }
+        @keyframes characterWiggle {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            25% { transform: translateX(-50.3%) translateY(6px) rotate(-0.4deg); }
+            50% { transform: translateX(-50%) translateY(10px) rotate(0deg); }
+            75% { transform: translateX(-49.7%) translateY(6px) rotate(0.4deg); }
+        }
+
+        .nav-bar { animation: slideDown 0.8s ease-out forwards; }
+        .org-name-nav { animation: scaleUpLogo 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .left-side > * { opacity: 0; animation: slideInLeft 0.8s ease-out 0.3s forwards; }
+        .right-side > * { opacity: 0; animation: slideInRight 0.8s ease-out 0.3s forwards; }
+        .footer-tag { animation: slideInRight 1s ease-out 0.6s forwards; }
+
+        .blur-wrapper {
+            height: 100vh;
+            width: 100vw;
+            transition: filter 0.4s ease, brightness 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-modal .blur-wrapper {
+            filter: brightness(0.2) blur(12px);
+            pointer-events: none;
+        }
+
+        .split-container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-side {
+            background-color: #00e5ff;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 8%;
+            padding-right: 5%;
+            color: #000;
+        }
+
+        .right-side {
+            background-color: #ff007f;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 15%; 
+            padding-right: 5%;
+            color: #fff;
+            position: relative;
+        }
+
+        .org-name-nav {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -10px;
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+            z-index: 10;
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 7rem;
+            font-weight: 900;
+            letter-spacing: 10px;
+            pointer-events: none;
+            text-transform: uppercase;
+            white-space: nowrap;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0; 
+            transform-origin: center top;
+        }
+
+        .character-overlay {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100vh;
+            width: auto;
+            z-index: 20;
+            pointer-events: none;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            overflow: hidden;
+            animation: characterWiggle 8s ease-in-out infinite;
+        }
+
+        .character-overlay img {
+            height: 110vh;
+            max-width: none;
+            object-fit: contain;
+            margin-bottom: -5vh;
+        }
+
+        .nav-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 60px;
+            z-index: 30;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .nav-link:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .btn-action {
+            padding: 18px 45px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            border: 3px solid currentColor;
+            display: inline-block;
+            width: fit-content;
+            text-decoration: none;
+            text-align: center;
+            background: transparent;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .footer-tag {
+            position: absolute;
+            bottom: 40px;
+            right: 60px;
+            z-index: 30;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        /* --- Модальные окна Общее --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #ff007f;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 200;
+            font-weight: bold;
+            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+        }
+        .close-modal:hover { transform: scale(1.1) rotate(90deg); background: #fff; color: #ff007f; }
+
+        /* --- Стильное окно КАРТЫ (Адрес) --- */
+        .map-card {
+            background: rgba(15, 23, 42, 0.98);
+            width: 90%;
+            max-width: 800px; 
+            height: 550px;     
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #00e5ff;
+            border-radius: 24px;
+            box-shadow: 0 0 60px rgba(0, 229, 255, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .map-container {
+            flex-grow: 1;
+            background: #111;
+            overflow: hidden;
+            position: relative;
+            cursor: crosshair;
+        }
+
+        .map-image-wrapper {
+            width: 100%;
+            height: 100%;
+            transition: transform 3s cubic-bezier(0.1, 0.4, 0.2, 1);
+            transform-origin: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map-image-wrapper img {
+            max-width: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Маркер цели */
+        .map-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ff007f;
+            border: 4px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ff007f;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 5;
+            transition: transform 0.5s 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .map-card.active .map-marker {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .map-info-footer {
+            background: rgba(0, 229, 255, 0.05);
+            border-top: 1px solid rgba(0, 229, 255, 0.2);
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .map-address-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .map-address-desc {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2px;
+        }
+
+        /* --- Стильное окно ДОСЬЕ --- */
+        .dossier-card {
+            background: rgba(15, 23, 42, 0.98);
+            width: 95%;
+            max-width: 1000px;
+            height: 650px;
+            display: flex;
+            position: relative;
+            border: 2px solid #00e5ff;
+            border-radius: 24px;
+            box-shadow: 0 0 60px rgba(0, 229, 255, 0.15);
+            overflow: hidden;
+            padding: 40px;
+        }
+
+        .dossier-card::before {
+            content: "FILE: CLASSIFIED";
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            color: rgba(0, 229, 255, 0.3);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 4px;
+        }
+
+        .dossier-left {
+            width: 35%;
+            padding-right: 40px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .photo-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .photo-frame {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: #0f172a;
+            border: 2px solid #ff007f;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(110%);
+        }
+
+        .active-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff007f;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .dossier-right {
+            width: 65%;
+            padding-left: 40px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .dossier-server-tag {
+            position: absolute;
+            top: -10px;
+            right: 0;
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+        }
+
+        .dossier-title-block { margin-bottom: 30px; }
+        .dossier-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem; 
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: #fff;
+            margin-top: 5px;
+        }
+        .lawyer-id {
+            color: #00e5ff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            display: block;
+        }
+
+        .grid-tech {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tech-box {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border-left: 3px solid #00e5ff;
+        }
+
+        .tech-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .tech-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .dossier-bio-section {
+            background: rgba(0, 229, 255, 0.02);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            margin-bottom: auto;
+        }
+
+        .bio-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .controls-nav { display: flex; gap: 15px; margin-top: 20px; }
+
+        .nav-btn-tech {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00e5ff;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-btn-tech:hover { background: #00e5ff; color: #000; }
+
+        /* --- Окно "О НАС" --- */
+        .about-card {
+            background: rgba(15, 23, 42, 0.98);
+            width: 95%;
+            max-width: 1000px; 
+            max-height: 85vh; 
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #ff007f;
+            border-radius: 24px;
+            padding: 40px; 
+            box-shadow: 0 0 50px rgba(255, 0, 127, 0.2);
+            position: relative;
+            overflow: hidden; 
+        }
+
+        .about-card::before {
+            content: "CORPORATE OVERVIEW";
+            position: absolute;
+            top: 28px;
+            left: 40px;
+            color: rgba(255, 255, 255, 0.05);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 4px;
+        }
+
+        .about-server-tag {
+            position: absolute;
+            top: 20px;
+            right: 40px; 
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.03);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            pointer-events: none;
+            line-height: 1;
+        }
+
+        .about-section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem; 
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 0.9;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
+        .exclusive-badge {
+            display: block;
+            background: #ff007f;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: 800;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(255, 0, 127, 0.3);
+            width: 100%;
+        }
+
+        .about-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 40px; 
+            align-items: flex-start;
+            flex-grow: 1;
+        }
+
+        .principle-box {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px; 
+            border-radius: 15px;
+            border-left: 4px solid #ff007f;
+            position: relative;
+            transition: 0.3s ease;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        
+        .principle-box::before {
+            content: attr(data-number);
+            position: absolute;
+            right: -5px; bottom: -10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 5rem; 
+            color: rgba(255, 255, 255, 0.03);
+            font-weight: 900;
+            pointer-events: none;
+        }
+
+        .principle-box h4 {
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            color: #00e5ff;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .principle-box p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-description-large {
+            font-size: 1.05rem; 
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            padding-left: 15px;
+            border-left: 2px solid rgba(0, 229, 255, 0.4);
+        }
+
+        .stats-large {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-val-large {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3rem; 
+            color: #ff007f;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+
+        .stat-lab-large {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #00e5ff;
+            letter-spacing: 1.5px;
+        }
+
+        .murrierta-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: rgba(0, 229, 255, 0.3);
+            letter-spacing: 4px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 20px;
+            margin-top: auto;
+        }
+
+        .title-main {
+            font-size: clamp(3rem, 6vw, 6rem);
+            line-height: 1.05;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .services-card {
+            background: rgba(15, 23, 42, 0.98);
+            width: 95%;
+            max-width: 1100px;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #00e5ff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 0 60px rgba(0, 229, 255, 0.2);
+            position: relative;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .service-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .service-item:hover {
+            background: rgba(0, 229, 255, 0.08);
+            border-color: #00e5ff;
+            transform: translateY(-3px);
+        }
+
+        .service-icon-box {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 229, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .service-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .upcoming-section {
+            margin-top: auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .upcoming-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .upcoming-box {
+            padding: 25px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(255, 0, 127, 0.05), rgba(15, 23, 42, 0.5));
+            border: 1px dashed rgba(255, 0, 127, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upcoming-box::after {
+            content: "COMING SOON";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 8px;
+            font-weight: 900;
+            background: #ff007f;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .upcoming-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .upcoming-desc {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 5px;
+        }
+
+        @media (min-width: 1900px) and (max-width: 3840px) {
+            .services-card {
+                height: 85vh;
+            }
+        }
+
+        ::before, ::after, .about-description-large {
+            border-style: none;
+            border-color: transparent;
+        }
+    
+    </style>
+</head>
+<body>
+
+    <div class="blur-wrapper" id="blur-target">
+        
+        <div class="org-name-nav">VERDICT</div>
+
+        <div class="nav-bar">
+            <div class="flex items-center gap-10">
+                <div class="nav-link text-black" onclick="openAbout()">О нас</div>
+                <div class="nav-link text-black" onclick="openServices()">Услуги</div>
+            </div>
+            <div class="flex items-center gap-10 text-white">
+                <div class="nav-link" onclick="openAddress()">Адрес</div>
+                <a href="https://discord.gg/BqS6S4g2En" target="_blank" class="nav-link">Discord</a>
+            </div>
+        </div>
+
+        <div class="split-container">
+            <div class="left-side">
+                <h1 class="heading-font title-main">ПОКА НЕ<br>НЕ ЕБЕТ</h1>
+                <p class="font-semibold max-w-xs">Ваши права - наша работа. Лучшая юридическая защита в Лос-Сантосе..</p>
+                <button class="btn-action cursor-pointer" id="btn-lawyers">Наши Адвокаты</button>
+            </div>
+
+            <div class="right-side">
+                <h1 class="heading-font title-main" style="color: #00e5ff;">ДОКАЗАНО<br><span style="text-wrap: nowrap;">ЧТО, СКАЗАНО</span></h1>
+                <ul class="space-y-4 uppercase font-bold text-sm">
+                    <li class="relative pl-8 before:absolute before:left-0 before:top-1/2 before:h-0.5 before:w-5 before:bg-cyan-400">Иски в суд</li>
+                    <li class="relative pl-8 before:absolute before:left-0 before:top-1/2 before:h-0.5 before:w-5 before:bg-cyan-400">Выезд в КПЗ / ФТ</li>
+                    <li class="relative pl-8 before:absolute before:left-0 before:top-1/2 before:h-0.5 before:w-5 before:bg-cyan-400">Гарантия победы</li>
+                </ul>
+                <a href="https://discord.gg/BqS6S4g2En" target="_blank" class="btn-action mt-8" style="color: #00e5ff;">Связаться</a>
+                
+                <div class="footer-tag">GTA 5 RP MURRIERTA</div>
+            </div>
+
+            <div class="character-overlay">
+                <img src="img/main-character.png" alt="Адвокат">
+            </div>
+        </div>
+    </div>
+
+    <div id="services-overlay" class="modal-overlay">
+        <div class="services-card">
+            <div class="close-modal" onclick="closeAllModals()">✕</div>
+            
+            <div class="flex justify-between items-end border-b border-white/10 pb-6">
+                <div>
+                    <span class="text-cyan-400 font-bold uppercase tracking-[0.3em] text-[10px] block mb-2">Legal Portfolio</span>
+                    <h2 class="heading-font text-5xl text-white uppercase leading-none">Наши <span class="text-cyan-400">Услуги</span></h2>
+                </div>
+                <div class="text-right hidden md:block">
+                    <span class="text-white/20 font-bold text-xs uppercase">Murrieta Justice Division</span>
+                </div>
+            </div>
+
+            <div class="service-grid">
+                <!-- Выезды на допросы -->
+                <div class="service-item">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <div class="service-text">Выезды на допросы</div>
+                </div>
+                <!-- Вызовы при задержаниях -->
+                <div class="service-item">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </div>
+                    <div class="service-text">Вызовы при задержаниях</div>
+                </div>
+                <!-- Иски в суды -->
+                <div class="service-item">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                    <div class="service-text">Иски в суды</div>
+                </div>
+                <!-- Защита на суде -->
+                <div class="service-item">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div class="service-text">Защита на суде</div>
+                </div>
+                <!-- Юридические консультации -->
+                <div class="service-item">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    </div>
+                    <div class="service-text">Юр. консультации</div>
+                </div>
+                <!-- Выпуск под залог -->
+                <div class="service-item">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="service-text">Выпуск под залог</div>
+                </div>
+                <!-- Выпуск из федеральной тюрьмы -->
+                <div class="service-item">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>
+                    </div>
+                    <div class="service-text">Выпуск из ФТ</div>
+                </div>
+                <!-- Помощь с жалобами в прокуратуру -->
+                <div class="service-item">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </div>
+                    <div class="service-text">Жалобы в прокуратуру</div>
+                </div>
+            </div>
+
+            <div class="upcoming-section">
+                <span class="text-pink-500 font-bold uppercase tracking-widest text-[10px] block mb-4">Перспективные направления</span>
+                <div class="upcoming-grid">
+                    <div class="upcoming-box">
+                        <h3 class="upcoming-title">Verdict <span class="text-pink-500">Armed Forces</span></h3>
+                        <p class="upcoming-desc">Защита прав и решение конфликтов с помощью оружия.</p>
+                    </div>
+                    <div class="upcoming-box">
+                        <h3 class="upcoming-title">Verdict <span class="text-pink-500">Academy</span></h3>
+                        <p class="upcoming-desc">Обучение и подготовка профессиональных юристов штата.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ОКНО АДРЕС (КАРТА) -->
+    <div id="address-overlay" class="modal-overlay">
+        <div class="map-card" id="map-card-el">
+            <div class="close-modal" onclick="closeAllModals()">✕</div>
+            
+            <div class="map-container">
+                <div class="map-image-wrapper" id="map-zoom-target">
+                    <img src="img/map.png" alt="Карта штата">
+                    <div class="map-marker" id="map-marker-el"></div>
+                </div>
+            </div>
+
+            <div class="map-info-footer">
+                <div>
+                    <h3 class="map-address-title">Наш главный офис</h3>
+                    <p class="map-address-desc">Апартаменты №26, этаж 9, квартира 63</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-cyan-400 font-bold text-xs uppercase tracking-widest block mb-1">Район</span>
+                    <span class="text-white font-bold">Little Seoul</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ДОСЬЕ -->
+    <div id="dossier-overlay" class="modal-overlay">
+        <div class="dossier-card">
+            <div class="close-modal" onclick="closeAllModals()">✕</div>
+            
+            <div class="dossier-left">
+                <div class="photo-container">
+                    <div class="photo-frame">
+                        <img id="lawyer-photo" src="" alt="Адвокат">
+                    </div>
+                    <div class="active-status">Active</div>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <div class="tech-box" style="border-left-color: #ff007f;">
+                        <div class="tech-label">Личный телефон</div>
+                        <div class="tech-value text-white" id="lawyer-phone">...</div>
+                    </div>
+                    <div class="controls-nav">
+                        <div class="nav-btn-tech" onclick="changeLawyer(-1)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M15 18l-6-6 6-6"/></svg>
+                        </div>
+                        <div class="nav-btn-tech" onclick="changeLawyer(1)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 18l6-6-6-6"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dossier-right">
+                <div class="dossier-server-tag">MURRIERTA</div>
+                
+                <div class="dossier-title-block">
+                    <span class="lawyer-id" id="lawyer-id">#CASE-001</span>
+                    <h2 class="dossier-title" id="lawyer-name">...</h2>
+                </div>
+
+                <div class="grid-tech">
+                    <div class="tech-box">
+                        <div class="tech-label">Профиль работы</div>
+                        <div class="tech-value" id="lawyer-spec">...</div>
+                    </div>
+                    <div class="tech-box">
+                        <div class="tech-label">Win Rate</div>
+                        <div class="tech-value text-cyan-400" id="lawyer-rate">...</div>
+                    </div>
+                    <div class="tech-box">
+                        <div class="tech-label">Гонорар</div>
+                        <div class="tech-value" id="lawyer-price">...</div>
+                    </div>
+                    <div class="tech-box">
+                        <div class="tech-label">Статус</div>
+                        <div class="tech-value text-pink-500">Доступен</div>
+                    </div>
+                </div>
+
+                <div class="dossier-bio-section">
+                    <div class="tech-label" style="margin-bottom: 10px;">Оперативная сводка</div>
+                    <p class="bio-text" id="lawyer-bio">...</p>
+                </div>
+
+                <a href="https://discord.gg/BqS6S4g2En" target="_blank" class="btn-action w-full mt-6" style="color: #ff007f; border-color: #ff007f; border-radius: 12px;">Вызвать адвоката</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ОКНО О НАС -->
+    <div id="about-overlay" class="modal-overlay">
+        <div class="about-card">
+            <div class="close-modal" onclick="closeAllModals()">✕</div>
+            
+            <div class="about-server-tag">MURRIERTA</div>
+
+            <div class="about-header  pb-4">
+                <span class="text-white/20 font-bold uppercase tracking-[0.3em] text-[9px] block">Independent Legal Union of Los Santos</span>
+                <h2 class="about-section-title">БЮРО <span class="text-cyan-400">VERDICT</span></h2>
+            </div>
+
+            <div class="about-main-grid">
+                <div class="flex flex-col h-full">
+                    <p class="about-description-large">
+                        Ведущая коллегия независимых адвокатов. Мы обеспечиваем <b>правовую безопасность</b> граждан в самых сложных ситуациях.
+                    </p>
+                    
+                    <div class="stats-large">
+                        <div>
+                            <div class="stat-val-large">98%</div>
+                            <div class="stat-lab-large">Успешных дел</div>
+                        </div>
+                        <div>
+                            <div class="stat-val-large">500+</div>
+                            <div class="stat-lab-large">Счастливых клиентов</div>
+                        </div>
+                    </div>
+
+                    <div class="exclusive-badge mb-6">Только на MURRIETA</div>
+
+                    <div class="murrierta-label">
+                        EST. 2026 / LOS SANTOS
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <div class="principle-box" data-number="01">
+                        <h4>Результат любой ценой</h4>
+                        <p>Мы умеем убеждать закон быть справедливым к нашим клиентам.</p>
+                    </div>
+                    <div class="principle-box" data-number="02">
+                        <h4>Связи и опыт</h4>
+                        <p>Годы работы позволили нам наладить контакт со всеми структурами штата. Мы знаем, как ускорить процесс.</p>
+                    </div>
+                    <div class="principle-box" data-number="03">
+                        <h4>Отклик</h4>
+                        <p>Помощь 24/7. Готовы к выезду в КПЗ или ФТ в любую минуту.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- НАСТРОЙКИ КАРТЫ (Изменяй здесь) --- */
+        const mapSettings = {
+            // Масштаб при открытии
+            zoomScale: 2.5,
+            
+            // Куда именно сместится сама КАРТА (в процентах)
+            // Положительные значения сдвигают картинку влево/вверх
+            zoomX: 8,  
+            zoomY: 22,
+            
+            // ГДЕ появится розовая метка на экране (в процентах от размера окна карты)
+            // 50% и 50% - это ровно по центру
+            markerTop: 28,
+            markerLeft: 42
+        };
+
+        const lawyers = [
+            { id: "#CASE-074", name: "Fedor Otmazkin", spec: "Вызовы и Суды", phone: "4444474", rate: "99.9%", price: "$50k+", bio: "Бывший прокурор. Знает лазейки в УК. Не проиграл ни одного дела за последний год. Специализируется на освобождении из-под стражи при процессуальных ошибках.", photo: "img/Lawyer1.png" },
+            { id: "#CASE-222", name: "Джон Морриган", spec: "Гражданские иски", phone: "222-333", rate: "95.0%", price: "$10k / ч.", bio: "Мастер красноречия и досудебных соглашений. Выиграл более 100 дел против государственных структур Los Santos.", photo: "img/lawyer2.jpg" },
+            { id: "#CASE-999", name: "Елена Шарп", spec: "Крайм-защита", phone: "999-000", rate: "100%", price: "$25k / ч.", bio: "Специалист по особо тяжким преступлениям. Работает там, где другие сдаются. Ваш последний рубеж обороны.", photo: "img/lawyer3.jpg" }
+        ];
+
+        let currentIdx = 0;
+
+        function updateLawyerInfo() {
+            const l = lawyers[currentIdx];
+            document.getElementById('lawyer-id').innerText = l.id;
+            document.getElementById('lawyer-name').innerText = l.name;
+            document.getElementById('lawyer-spec').innerText = l.spec;
+            document.getElementById('lawyer-phone').innerText = l.phone;
+            document.getElementById('lawyer-rate').innerText = l.rate;
+            document.getElementById('lawyer-price').innerText = l.price;
+            document.getElementById('lawyer-bio').innerText = l.bio;
+            document.getElementById('lawyer-photo').src = l.photo;
+        }
+
+        function changeLawyer(dir) {
+            currentIdx += dir;
+            if (currentIdx < 0) currentIdx = lawyers.length - 1;
+            if (currentIdx >= lawyers.length) currentIdx = 0;
+            updateLawyerInfo();
+        }
+
+        function openAbout() {
+            document.body.classList.add('view-modal');
+            document.getElementById('about-overlay').style.display = 'flex';
+        }
+
+        function openAddress() {
+            document.body.classList.add('view-modal');
+            const overlay = document.getElementById('address-overlay');
+            const card = document.getElementById('map-card-el');
+            const zoomTarget = document.getElementById('map-zoom-target');
+            const marker = document.getElementById('map-marker-el');
+            
+            overlay.style.display = 'flex';
+            
+            // Применяем позицию маркера из настроек
+            marker.style.top = `${mapSettings.markerTop}%`;
+            marker.style.left = `${mapSettings.markerLeft}%`;
+
+            // Сбрасываем и через миг применяем анимацию
+            zoomTarget.style.transition = 'none'; 
+            zoomTarget.style.transform = `scale(1) translate(0, 0)`;
+            card.classList.remove('active');
+
+            setTimeout(() => {
+                zoomTarget.style.transition = 'transform 3s cubic-bezier(0.1, 0.4, 0.2, 1)'; 
+                card.classList.add('active');
+                zoomTarget.style.transform = `scale(${mapSettings.zoomScale}) translate(${mapSettings.zoomX}%, ${mapSettings.zoomY}%)`;
+            }, 50);
+        }
+
+        function closeAllModals() {
+            document.body.classList.remove('view-modal');
+            document.getElementById('address-overlay').style.display = 'none';
+            document.getElementById('dossier-overlay').style.display = 'none';
+            document.getElementById('about-overlay').style.display = 'none';
+            document.getElementById('services-overlay').style.display = 'none';
+        }
+
+        document.getElementById('btn-lawyers').onclick = () => {
+            document.body.classList.add('view-modal');
+            document.getElementById('dossier-overlay').style.display = 'flex';
+            updateLawyerInfo();
+        }
+
+        function openServices() {
+            closeAllModals();
+            document.body.classList.add('view-modal');
+            document.getElementById('services-overlay').style.display = 'flex';
+        }
+
+    </script>
+</body>
+</html>
